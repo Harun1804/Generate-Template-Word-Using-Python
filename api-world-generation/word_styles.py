@@ -30,6 +30,16 @@ class WordStyles:
             r.rPr.rFonts.set(qn('w:eastAsia'), 'Tahoma')
 
     @staticmethod
+    def set_subheading_style(paragraph):
+        for run in paragraph.runs:
+            run.bold = True
+            run.font.name = 'Tahoma'
+            run.font.size = Pt(12)
+            run.font.color.rgb = RGBColor(0, 0, 0)
+            r = run._element
+            r.rPr.rFonts.set(qn('w:eastAsia'), 'Tahoma')
+
+    @staticmethod
     def set_content_style(paragraph):
         for run in paragraph.runs:
             run.font.name = 'Tahoma'
