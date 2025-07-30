@@ -111,7 +111,15 @@ def convert_postman_item(item):
             "service_table": {"header": ["Nama Service", "Fungsi"], "rows": [[item['name'], ""]]},
             "http_request": {"header": ["Method", "URL/Endpoint"], "rows": [[request['method'], request['url']['raw']]]} if request else {"header": ["Method", "URL/Endpoint"], "rows": [[]]},
             "parameters_table": extract_parameters_table(request),
-            "result_table": extract_result_table(responses),
+            "result_table": {
+                "header": ["Field", "Description"],
+                "rows": [
+                    ["status", "Representasi dari hasil request API (true/false)"],
+                    ["message", "Deskripsi atau keterangan sesuai dengan response code yang dikirim server"],
+                    ["data", f"Representasi pengambilan data dari request {item['name']}"],
+                    ["paging", "Memberikan informasi terkait current page, total page, size, total data"]
+                ]
+            },
             "example_json_table": extract_example_json_table(request, responses),
             "headers_table": extract_headers_table(request)
         }
