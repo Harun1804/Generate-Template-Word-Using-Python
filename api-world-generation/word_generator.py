@@ -6,11 +6,9 @@ class WordTemplateGenerator:
         self.data = data
         self.doc = Document()
 
-    def add_api_section(self, api):
-        main_section = 2  # or whatever your main section number is
-        for idx, api in enumerate(self.data.apis):
-            heading = self.doc.add_heading(f"{main_section}.{idx+1} {api['service_title']}", level=1)
-            WordStyles.set_heading_style(heading)
+    def add_api_section(self, api, main_section, idx):
+        heading = self.doc.add_heading(f"{main_section}.{idx+1} {api['service_title']}", level=1)
+        WordStyles.set_heading_style(heading)
         
         # Service Table
         WordStyles.set_heading_style(heading)
@@ -116,5 +114,6 @@ class WordTemplateGenerator:
         self.doc.save(filename)
 
     def generate(self):
-        for api in self.data.apis:
-            self.add_api_section(api)
+        main_section = 2  # or whatever your main section number is
+        for idx, api in enumerate(self.data.apis):
+            self.add_api_section(api, main_section, idx)
