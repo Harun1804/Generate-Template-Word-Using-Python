@@ -62,8 +62,11 @@ class WordTemplateGenerator:
             table.style = 'Table Grid'
             for col, val in enumerate(api["headers_table"]["header"]):
                 table.cell(0, col).text = val
-            for col, val in enumerate(api["headers_table"]["rows"][0]):
-                table.cell(1, col).text = val
+            for row_idx, row_vals in enumerate(api["headers_table"]["rows"]):
+                if row_idx + 1 >= len(table.rows):
+                    table.add_row()
+                for col, val in enumerate(row_vals):
+                    table.cell(row_idx + 1, col).text = val
             WordStyles.set_table_header_style(table.rows[0])
             WordStyles.set_table_content_style(table)
             section_num += 1
@@ -75,8 +78,12 @@ class WordTemplateGenerator:
         table.style = 'Table Grid'
         for col, val in enumerate(api["parameters_table"]["header"]):
             table.cell(0, col).text = val
-        for col, val in enumerate(api["parameters_table"]["rows"][0]):
-            table.cell(1, col).text = val
+        for row_idx, row_vals in enumerate(api["parameters_table"]["rows"]):
+            if row_idx + 1 >= len(table.rows):
+                table.add_row()
+            for col, val in enumerate(row_vals):
+                table.cell(row_idx + 1, col).text = val
+        
         WordStyles.set_table_header_style(table.rows[0])
         WordStyles.set_table_content_style(table)
         section_num += 1
