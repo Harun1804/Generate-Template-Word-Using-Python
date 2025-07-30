@@ -107,8 +107,8 @@ class WordTemplateGenerator:
             WordStyles.set_table_header_style(table.rows[i])
         WordStyles.set_table_content_style(
             table,
-            header_rows=[0, 2, 4],
-            special_rows=[1, 3, 5]
+            header_rows=api["example_json_table"]["header_rows"],
+            special_rows=api["example_json_table"]["special_rows"]
         )
 
     def add_folder(self, folder, section_numbers, level=1):
