@@ -1,4 +1,4 @@
-class WordTemplateData:
+class ExampleTemplateData:
     items = [
         {
             "name": "Audit Trial",
@@ -24,8 +24,8 @@ class WordTemplateData:
                                     "rows": [["POST", "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoxLCJjb2RlIjpudWxsLCJlbWFpbCI6InJvYm90MTIzQGdtYWlsLmNvbSIsInVzaW5nU3NvIjpmYWxzZSwic3NvTmFtZSI6bnVsbCwiaXNWZXJpZmllZCI6ZmFsc2UsInZlcmlmaWVkVG9rZW4iOm51bGwsInZlcmlmaWVkVG9rZW5FeHBpcmVkIjpudWxsLCJ0eXBlIjpudWxsLCJzdGF0dXMiOiJBQ1RJVkUiLCJsZXZlbCI6IkFETUlOIiwibm90ZSI6bnVsbCwicm9sZSI6eyJpZCI6MTAwLCJuYW1lIjoiU3RhZiBLZXJqYXNhbWEgVXNhaGEgUHVzYXQgIiwiZGVzY3JpcHRpb24iOm51bGwsImxldmVsIjp7ImlkIjo4NCwibmFtZSI6Im1ha2VyIiwidHlwZSI6InJvbGUtbGV2ZWwiLCJkZXNjcmlwdGlvbiI6bnVsbCwidmFsdWUiOiJtYWtlciJ9fSwicHJvZmlsZSI6eyJpZCI6MSwibmlrIjoiMzkyNDg1OTQzNDk4IiwibmFtZSI6IlJvYm90IDEyMyIsImRldGFpbEFkZHJlc3MiOnsiYWRkcmVzcyI6IkJhbmR1bmciLCJwcm92aW5jZSI6eyJpZCI6NzUsIm5hbWUiOiJHT1JPTlRBTE8ifSwicmVnZW5jeSI6eyJpZCI6NzUwMiwibmFtZSI6IktBQi4gQk9BTEVNTyJ9LCJkaXN0cmljdCI6eyJpZCI6NzUwMjA2LCJuYW1lIjoiQm90dW1vaXRvIn0sInBvc3RhbENvZGUiOiI0MzI0MjQzMiJ9LCJwaG9uZSI6IjA4MTIzOTIxODk0IiwiaW1hZ2UiOm51bGwsImJyYW5jaCI6eyJpZCI6MiwibmFtZSI6InB1c2F0IiwiY29kZSI6IlBTVCIsInByb2ZpdENlbnRlciI6bnVsbCwiYWRkcmVzcyI6bnVsbCwibGluayI6bnVsbCwidG90YWxTaXplIjpudWxsfSwidGF4TnVtYmVyIjoiMTIwMzkxMjAzNDkiLCJiYW5rIjp7ImlkIjoxLCJuYW1lIjoiQkFOSyBCUkkiLCJjb2RlIjoiMDAyIiwiYWNjb3VudE51bWJlciI6Ijg5MzI0ODkzMjQ5NCIsImFjY291bnROYW1lIjoiUm9ib3QifSwiZ2VuZGVyIjpudWxsLCJwb3NpdGlvbklkIjpudWxsLCJwb3NpdGlvbiI6bnVsbCwic3ViRGl2aXNpb25JZCI6bnVsbCwic3ViRGl2aXNpb24iOm51bGwsImRpdmlzaW9uSWQiOm51bGwsImRpdmlzaW9uIjpudWxsLCJkaXJlY3RvcmF0ZUlkIjpudWxsLCJkaXJlY3RvcmF0ZSI6bnVsbCwiY3VzdG9tZXJJZCI6bnVsbCwicGljTmFtZSI6bnVsbCwicGljUGhvbmUiOm51bGx9LCJ2ZXJpZnlQcm9ncmVzcyI6bnVsbH0sInVzZXJJZCI6MSwic3ViIjoicm9ib3QxMjNAZ21haWwuY29tIiwiaWF0IjoxNzUzODU5MjQ1LCJleHAiOjE3NTM5MDI0NDV9.xluDVDBW2EkXauS23Db6PxVJidwR4y8Hq5s4U3mVMvE"]]
                                 },
                                 "headers_table": {
-                                  "header": ["Header", "Value"],
-                                  "rows": [["Authorization", "Bearer ey"]]
+                                    "header": ["Header", "Value"],
+                                    "rows": [["Authorization", "Bearer ey"]]
                                 },
                                 "parameters_table": {
                                     "header": ["Parameters", "Data Type", "Length", "Mandatory", "Description"],
