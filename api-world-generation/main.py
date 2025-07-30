@@ -30,5 +30,5 @@ if __name__ == '__main__':
     spec.loader.exec_module(module)
     generator = WordTemplateGenerator(module.WordTemplateData)
     generator.generate()
-    generator.save('Generate_Access_Token_API.docx')
-    print("Word document generated: Generate_Access_Token_API.docx")
+    generator.save('Generate_API_DOC.docx')
+    print("Word document generated: Generate_API_DOC.docx")
