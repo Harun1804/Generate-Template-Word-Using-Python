@@ -1,3 +1,5 @@
+import re
+
 def extract_example_json_table(request, responses):
     # Get request body (if exists)
     req_body = None
@@ -106,19 +108,29 @@ def convert_postman_item(item):
                 if has_auth:
                     break
 
+        # Insert '/v1/' after the domain in the URL if not already present
+        url_raw = ""
+        if request and 'url' in request and 'raw' in request['url']:
+            url_raw = request['url']['raw']
+            if '/v1/' not in url_raw:
+                # Insert '/v1/' after the domain part
+                url_raw = re.sub(r"(https?://[^/]+)", r"\1/v1", url_raw, count=1)
         api = {
             "service_title": item['name'],
             "service_table": {"header": ["Nama Service", "Fungsi"], "rows": [[item['name'], ""]]},
-            "http_request": {"header": ["Method", "URL/Endpoint"], "rows": [[request['method'], request['url']['raw']]]} if request else {"header": ["Method", "URL/Endpoint"], "rows": [[]]},
+            "http_request": {
+            "header": ["Method", "URL/Endpoint"],
+            "rows": [[request['method'], url_raw]] if request else {"header": ["Method", "URL/Endpoint"], "rows": [[]]}
+            },
             "parameters_table": extract_parameters_table(request),
             "result_table": {
-                "header": ["Field", "Description"],
-                "rows": [
-                    ["status", "Representasi dari hasil request API (true/false)"],
-                    ["message", "Deskripsi atau keterangan sesuai dengan response code yang dikirim server"],
-                    ["data", f"Representasi pengambilan data dari request {item['name']}"],
-                    ["paging", "Memberikan informasi terkait current page, total page, size, total data"]
-                ]
+            "header": ["Field", "Description"],
+            "rows": [
+                ["status", "Representasi dari hasil request API (true/false)"],
+                ["message", "Deskripsi atau keterangan sesuai dengan response code yang dikirim server"],
+                ["data", f"Representasi pengambilan data dari request {item['name']}"],
+                ["paging", "Memberikan informasi terkait current page, total page, size, total data"]
+            ]
             },
             "example_json_table": extract_example_json_table(request, responses),
             "headers_table": extract_headers_table(request)
