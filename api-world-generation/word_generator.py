@@ -6,8 +6,8 @@ class WordTemplateGenerator:
         self.data = data
         self.doc = Document()
 
-    def add_api_section(self, api, main_section, idx):
-        heading = self.doc.add_heading(f"{main_section}.{idx+1} {api['service_title']}", level=1)
+    def add_api_section(self, api, section_number):
+        heading = self.doc.add_heading(f"{section_number} {api['service_title']}", level=1)
         WordStyles.set_heading_style(heading)
         
         # Service Table
@@ -45,6 +45,7 @@ class WordTemplateGenerator:
             WordStyles.set_content_style(para)
             table = self.doc.add_table(rows=2, cols=2)
             table.style = 'Table Grid'
+            table.autofit = False
             for col, val in enumerate(api["authorization_table"]["header"]):
                 table.cell(0, col).text = val
             for col, val in enumerate(api["authorization_table"]["rows"][0]):
@@ -106,14 +107,24 @@ class WordTemplateGenerator:
             WordStyles.set_table_header_style(table.rows[i])
         WordStyles.set_table_content_style(
             table,
-            header_rows=api["example_json_table"]["header_rows"],
-            special_rows=api["example_json_table"]["special_rows"]
+            header_rows=[0, 2, 4],
+            special_rows=[1, 3, 5]
         )
+
+    def add_folder(self, folder, section_numbers, level=1):
+        section_number = '.'.join(str(num) for num in section_numbers)
+        heading = self.doc.add_heading(f"{section_number} {folder['name']}", level=level)
+        WordStyles.set_heading_style(heading)
+        for idx, item in enumerate(folder.get('items', [])):
+            if 'api' in item:
+                self.add_api_section(item['api'], section_number + f".{idx+1}")
+            elif 'name' in item and 'items' in item:
+                self.add_folder(item, section_numbers + [idx+1], level=level+1)
 
     def save(self, filename):
         self.doc.save(filename)
 
     def generate(self):
         main_section = 2  # or whatever your main section number is
-        for idx, api in enumerate(self.data.apis):
-            self.add_api_section(api, main_section, idx)
+        for idx, item in enumerate(self.data.items):
+            self.add_folder(item, [main_section, idx+1])
