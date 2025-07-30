@@ -63,17 +63,10 @@ def extract_result_table(responses):
                 pass
     return {"header": ["Field", "Description"], "rows": [[]]}
 
-def extract_headers_table(request, responses):
-    # Prefer response headers if available, else use request headers
+def extract_headers_table(request):
+    # Only extract headers from the request
     headers = []
-    # Try to get headers from the first response (usually 200/OK)
-    for resp in responses:
-        if 'header' in resp and isinstance(resp['header'], list) and resp['header']:
-            for h in resp['header']:
-                headers.append([h.get('key', ''), h.get('value', '')])
-            break
-    # If no response headers, use request headers
-    if not headers and request and 'header' in request:
+    if request and 'header' in request:
         for h in request['header']:
             headers.append([h.get('key', ''), h.get('value', '')])
     if not headers:
@@ -120,7 +113,7 @@ def convert_postman_item(item):
             "parameters_table": extract_parameters_table(request),
             "result_table": extract_result_table(responses),
             "example_json_table": extract_example_json_table(request, responses),
-            "headers_table": extract_headers_table(request, responses)
+            "headers_table": extract_headers_table(request)
         }
         if has_auth:
             api["authorization_desc"] = "Untuk mengakses endpoint ini, pengguna harus memiliki token akses yang valid. Token berlaku selama 12 jam"
