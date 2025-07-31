@@ -112,8 +112,11 @@ def convert_postman_item(item):
         url_raw = ""
         if request and 'url' in request and 'raw' in request['url']:
             url_raw = request['url']['raw']
-            if '/v1/' not in url_raw:
-                # Insert '/v1/' after the domain part
+            # Insert '/v1' after '{{baseUrl}}' if not already present
+            if '{{baseUrl}}' in url_raw and '/v1' not in url_raw:
+                url_raw = url_raw.replace('{{baseUrl}}', '{{baseUrl}}/v1')
+            elif '/v1/' not in url_raw:
+                # Insert '/v1/' after the domain part for full URLs
                 url_raw = re.sub(r"(https?://[^/]+)", r"\1/v1", url_raw, count=1)
         api = {
             "service_title": item['name'],
