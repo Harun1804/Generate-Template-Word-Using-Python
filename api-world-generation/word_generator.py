@@ -1,10 +1,17 @@
 from docx import Document
 from word_styles import WordStyles
-
+import re
 class WordTemplateGenerator:
     def __init__(self, data):
         self.data = data
         self.doc = Document()
+
+    @staticmethod
+    def sanitize_xml_string(s):
+        if not isinstance(s, str):
+            s = str(s)
+        # Remove control characters except for tab, newline, and carriage return
+        return re.sub(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]', '', s)
 
     def add_api_section(self, api, section_number):
         heading = self.doc.add_heading(f"{section_number} {api['service_title']}", level=1)
@@ -15,9 +22,9 @@ class WordTemplateGenerator:
         table = self.doc.add_table(rows=2, cols=2)
         table.style = 'Table Grid'
         for col, val in enumerate(api["service_table"]["header"]):
-            table.cell(0, col).text = val
+            table.cell(0, col).text = self.sanitize_xml_string(val)
         for col, val in enumerate(api["service_table"]["rows"][0]):
-            table.cell(1, col).text = val
+            table.cell(1, col).text = self.sanitize_xml_string(val)
         WordStyles.set_table_header_style(table.rows[0])
         WordStyles.set_table_content_style(table)
 
@@ -31,9 +38,9 @@ class WordTemplateGenerator:
         table = self.doc.add_table(rows=2, cols=2)
         table.style = 'Table Grid'
         for col, val in enumerate(api["http_request"]["header"]):
-            table.cell(0, col).text = val
+            table.cell(0, col).text = self.sanitize_xml_string(val)
         for col, val in enumerate(api["http_request"]["rows"][0]):
-            table.cell(1, col).text = val
+            table.cell(1, col).text = self.sanitize_xml_string(val)
         WordStyles.set_table_header_style(table.rows[0])
         WordStyles.set_table_content_style(table)
 
@@ -41,15 +48,15 @@ class WordTemplateGenerator:
         if "authorization_desc" in api and "authorization_table" in api:
             heading = self.doc.add_heading(f"{section_num}. Authorization", level=2)
             WordStyles.set_subheading_style(heading)
-            para = self.doc.add_paragraph(api["authorization_desc"])
+            para = self.doc.add_paragraph(self.sanitize_xml_string(api["authorization_desc"]))
             WordStyles.set_content_style(para)
             table = self.doc.add_table(rows=2, cols=2)
             table.style = 'Table Grid'
             table.autofit = False
             for col, val in enumerate(api["authorization_table"]["header"]):
-                table.cell(0, col).text = val
+                table.cell(0, col).text = self.sanitize_xml_string(val)
             for col, val in enumerate(api["authorization_table"]["rows"][0]):
-                table.cell(1, col).text = val
+                table.cell(1, col).text = self.sanitize_xml_string(val)
             WordStyles.set_table_header_style(table.rows[0])
             WordStyles.set_table_content_style(table)
             section_num += 1
@@ -61,12 +68,12 @@ class WordTemplateGenerator:
             table = self.doc.add_table(rows=2, cols=2)
             table.style = 'Table Grid'
             for col, val in enumerate(api["headers_table"]["header"]):
-                table.cell(0, col).text = val
+                table.cell(0, col).text = self.sanitize_xml_string(val)
             for row_idx, row_vals in enumerate(api["headers_table"]["rows"]):
                 if row_idx + 1 >= len(table.rows):
                     table.add_row()
                 for col, val in enumerate(row_vals):
-                    table.cell(row_idx + 1, col).text = val
+                    table.cell(row_idx + 1, col).text = self.sanitize_xml_string(val)
             WordStyles.set_table_header_style(table.rows[0])
             WordStyles.set_table_content_style(table)
             section_num += 1
@@ -77,12 +84,12 @@ class WordTemplateGenerator:
         table = self.doc.add_table(rows=2, cols=5)
         table.style = 'Table Grid'
         for col, val in enumerate(api["parameters_table"]["header"]):
-            table.cell(0, col).text = val
+            table.cell(0, col).text = self.sanitize_xml_string(val)
         for row_idx, row_vals in enumerate(api["parameters_table"]["rows"]):
             if row_idx + 1 >= len(table.rows):
                 table.add_row()
             for col, val in enumerate(row_vals):
-                table.cell(row_idx + 1, col).text = val
+                table.cell(row_idx + 1, col).text = self.sanitize_xml_string(val)
         
         WordStyles.set_table_header_style(table.rows[0])
         WordStyles.set_table_content_style(table)
@@ -94,10 +101,10 @@ class WordTemplateGenerator:
         table = self.doc.add_table(rows=len(api["result_table"]["rows"])+1, cols=2)
         table.style = 'Table Grid'
         for j, val in enumerate(api["result_table"]["header"]):
-            table.cell(0, j).text = val
+            table.cell(0, j).text = self.sanitize_xml_string(val)
         for i, row in enumerate(api["result_table"]["rows"]):
             for j, val in enumerate(row):
-                table.cell(i+1, j).text = val
+                table.cell(i+1, j).text = self.sanitize_xml_string(val)
         WordStyles.set_table_header_style(table.rows[0])
         WordStyles.set_table_content_style(table)
         section_num += 1
@@ -109,7 +116,7 @@ class WordTemplateGenerator:
         table = self.doc.add_table(rows=len(rows), cols=1)
         table.style = 'Table Grid'
         for i, row in enumerate(rows):
-            table.cell(i, 0).text = row[0]
+            table.cell(i, 0).text = self.sanitize_xml_string(row[0])
         for i in api["example_json_table"]["header_rows"]:
             WordStyles.set_table_header_style(table.rows[i])
         WordStyles.set_table_content_style(
